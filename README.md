@@ -36,7 +36,7 @@ npm run build
 正式情報は `src/config/site.ts` に集約しています。次の項目を確定し、`draft` を `false` にしてから公開してください。
 
 - 運営者名（個人名・屋号・法人名）
-- 独自ドメインと公開URL
+- 独自ドメイン: `compri.jp`（取得済み）
 - ドメインの問い合わせ用メールアドレス
 - 対象年齢と未成年者の扱い
 - 準拠法・合意管轄
@@ -47,13 +47,11 @@ npm run build
 
 ## GitHub Pages
 
-`.github/workflows/deploy.yml` は `main` へのpushでビルド・デプロイします。独自ドメイン取得前はリポジトリ名付きURLを使う設定です。
-
-独自ドメインへ切り替える際は、workflowの環境変数を次のように変更します。
+`.github/workflows/deploy.yml` は `main` へのpushでビルド・デプロイします。公開先は `https://compri.jp` です。
 
 ```yaml
-SITE_URL: https://example.com
+SITE_URL: https://compri.jp
 BASE_PATH: /
 ```
 
-そのうえでGitHub Pages側のCustom domain設定とDNS設定を行ってください。
+GitHub Pages側のCustom domainは設定済みです。XServerドメインのDNS設定とHTTPS発行確認が残っています。

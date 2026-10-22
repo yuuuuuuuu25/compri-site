@@ -10,7 +10,7 @@ export const siteConfig = {
   operatorName: '',
   tradeName: '',
   supportEmail: '',
-  publicSiteUrl: '',
+  publicSiteUrl: 'https://compri.jp',
   minimumAge: '',
   governingLaw: '',
   jurisdiction: '',
@@ -18,7 +18,6 @@ export const siteConfig = {
 
 export const unresolvedItems = [
   '運営者の正式表記',
-  '独自ドメインと公開URL',
   '問い合わせ用メールアドレス',
   '対象年齢と未成年者の扱い',
   '準拠法と合意管轄',

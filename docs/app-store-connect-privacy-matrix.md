@@ -44,14 +44,14 @@
 
 ## App Store Connectへ設定するURL
 
-独自ドメイン確定後、次を設定する想定です。
+独自ドメイン `compri.jp` で次を設定する想定です。
 
 | フィールド | URL案 |
 |---|---|
-| Privacy Policy URL | `https://<domain>/privacy/` |
-| User Privacy Choices URL | `https://<domain>/account-deletion/` |
-| Support URL | `https://<domain>/support/` |
-| Marketing URL | `https://<domain>/`（必要な場合） |
+| Privacy Policy URL | `https://compri.jp/privacy/` |
+| User Privacy Choices URL | `https://compri.jp/account-deletion/` |
+| Support URL | `https://compri.jp/support/` |
+| Marketing URL | `https://compri.jp/`（必要な場合） |
 
 英語ローカライズでは、それぞれ `/en/` 配下のURLを使用します。
 

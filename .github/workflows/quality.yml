@@ -8,8 +8,8 @@ permissions:
   contents: read
 
 env:
-  SITE_URL: https://yuuuuuuuu25.github.io/compri-site
-  BASE_PATH: /compri-site
+  SITE_URL: https://compri.jp
+  BASE_PATH: /
 
 jobs:
   verify:

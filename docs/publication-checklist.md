@@ -5,7 +5,7 @@
 ## 1. 運営方針を確定する
 
 - [ ] 運営者の正式表記を個人名、屋号、法人名のどれにするか決める
-- [ ] 独自ドメインを取得する
+- [x] 独自ドメイン `compri.jp` を取得する
 - [ ] ドメインメールを契約し、問い合わせ用アドレスを作成する
 - [ ] SPF、DKIM、DMARCを設定する
 - [ ] 対象年齢と未成年者の扱いを決める
@@ -44,22 +44,22 @@ Supabaseは、選択リージョンが主データの保存場所を決める一
 
 ## 4. 独自ドメインへ切り替える
 
-- [ ] GitHub PagesのCustom domainを設定する
+- [x] GitHub PagesのCustom domainへ `compri.jp` を設定する
 - [ ] DNSのA/AAAAまたはCNAMEをGitHubの案内に従って設定する
 - [ ] HTTPS Enforceを有効にする
-- [ ] `.github/workflows/deploy.yml`の`SITE_URL`を独自ドメインへ変更する
-- [ ] `BASE_PATH`を`/`へ変更する
-- [ ] 必要に応じて`public/CNAME`を追加する
-- [ ] canonical、hreflang、sitemapが独自ドメインを指すことを確認する
+- [x] `.github/workflows/deploy.yml`の`SITE_URL`を`https://compri.jp`へ変更する
+- [x] `BASE_PATH`を`/`へ変更する
+- [x] GitHub Actionsデプロイのため`public/CNAME`は不要と確認する
+- [ ] 公開後、canonical、hreflang、sitemapが`compri.jp`を指すことを確認する
 
 ## 5. CompriアプリへURLを設定する
 
 `Compri/Compri/Features/Settings/AppAbout.swift`へ、公開確認済みのURLだけを設定します。
 
 ```swift
-static let privacyPolicyURLString = "https://<domain>/privacy/"
-static let termsURLString = "https://<domain>/terms/"
-static let contactURLString = "https://<domain>/support/"
+static let privacyPolicyURLString = "https://compri.jp/privacy/"
+static let termsURLString = "https://compri.jp/terms/"
+static let contactURLString = "https://compri.jp/support/"
 ```
 
 - [ ] 3 URLがHTTPSで200を返す
