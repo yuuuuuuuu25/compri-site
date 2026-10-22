@@ -1,0 +1,18 @@
+---
+import { siteConfig } from '@/config/site';
+
+interface Props {
+  lang?: 'ja' | 'en';
+}
+
+const { lang = 'ja' } = Astro.props;
+---
+
+{siteConfig.draft && (
+  <aside class="draft-notice" aria-label="公開状態">
+    <span class="draft-notice__label">{lang === 'en' ? 'Publication draft' : '公開準備中'}</span>
+    <span>{lang === 'en'
+      ? 'This is not the final public version. Operator and contact details are still pending.'
+      : '正式な運営者情報と連絡先を確定するまで、公開用の最終版ではありません。'}</span>
+  </aside>
+)}

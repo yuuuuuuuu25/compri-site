@@ -1,0 +1,35 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import DocumentMeta from '@/components/DocumentMeta.astro';
+import { siteConfig } from '@/config/site';
+
+const sections = [
+  ['scope', 'Scope'], ['service', 'Service'], ['accounts', 'Accounts'], ['sharing', 'Sharing'],
+  ['records', 'Your records'], ['prohibited', 'Prohibited conduct'], ['availability', 'Changes and availability'],
+  ['deletion', 'Deletion'], ['disclaimer', 'Disclaimers'], ['changes', 'Changes to terms'], ['apple', 'Relationship with Apple'], ['law', 'Law and disputes'],
+] as const;
+---
+
+<BaseLayout lang="en" title="Terms of Service" description="Terms and conditions for using Compri.">
+  <PageHeader eyebrow="Terms of service / Draft" title="Terms of Service" lead="The basic rules for using Compri and important limitations of a user-recorded price comparison service." />
+  <DocumentMeta lang="en" />
+  <div class="content-grid">
+    <nav class="content-nav" aria-label="On this page"><strong>CONTENTS</strong>{sections.map(([id, label]) => <a href={`#${id}`}>{label}</a>)}</nav>
+    <article class="legal-content">
+      <div class="pending-box"><strong>Publication draft</strong><p>Minimum age, governing law, jurisdiction, operator and contact details, and future payment terms are not yet final. Professional legal review is recommended before publication.</p></div>
+      <section id="scope"><h2>1. Scope</h2><p>These Terms govern your use of Compri. By using Compri, you agree to these Terms and the Privacy Policy.</p></section>
+      <section id="service"><h2>2. The service</h2><p>Compri lets you record items, stores, prices, quantities, units, and dates and compare unit prices across stores. A shared household lets up to two people use the same shopping records.</p><p>Compri does not sell products, broker purchases, provide official store pricing, or guarantee any listed price.</p></section>
+      <section id="accounts"><h2>3. Accounts and authentication</h2><p>You may begin with anonymous authentication. If the anonymous session is lost, you may lose access to the records associated with it. Consider linking Sign in with Apple if you want a recoverable sign-in method.</p><p>You are responsible for appropriately securing your device, Apple account, and authentication credentials.</p></section>
+      <section id="sharing"><h2>4. Household sharing</h2><p>Members of a shared household can view and edit its shopping records. You are responsible for choosing who you share with and reviewing what they will be able to access.</p><p>A household owner may need to remove the other member before deleting the owner account.</p></section>
+      <section id="records"><h2>5. Your records and price information</h2><p>You must ensure that information you add is lawful and does not infringe another person’s rights. You allow the operator to process your records only as needed to provide, store, sync, share, and display the service.</p><div class="fact-box"><strong>Check prices before buying</strong><p>Comparisons depend on user-entered values, units, quantities, and dates. OCR can also make mistakes. Confirm the current store display, receipt, and sales conditions before making a purchase.</p></div></section>
+      <section id="prohibited"><h2>6. Prohibited conduct</h2><ul><li>Violating applicable law or public policy</li><li>Impersonating another person or misusing credentials</li><li>Disrupting the service, servers, or networks</li><li>Unauthorized access, exploitation of vulnerabilities, or excessive load</li><li>Infringing another person’s rights or privacy</li><li>Using the service in a way substantially unrelated to its intended purpose</li></ul></section>
+      <section id="availability"><h2>7. Changes, interruption, and termination</h2><p>We may change, suspend, or end all or part of the service for maintenance, failures, security, legal compliance, or operational reasons. Where reasonably possible, we will provide notice in the app or on this site.</p></section>
+      <section id="deletion"><h2>8. Account deletion</h2><p>You can request deletion in the app. Signing out or uninstalling the app does not delete the cloud account or its data. Deleted accounts and eligible data cannot be restored, and household-sharing steps may be required first.</p></section>
+      <section id="disclaimer"><h2>9. Disclaimers and liability</h2><p>To the extent permitted by applicable law, Compri is provided without warranties of accuracy, completeness, fitness for a particular purpose, uninterrupted availability, or freedom from defects. Store prices, inventory, and sales conditions may change at any time.</p><div class="pending-box"><strong>Legal review required</strong><p>Nothing in these Terms excludes rights or liabilities that cannot legally be excluded. Liability limits, paid-service terms, billing, and refund rules must be redesigned before monetization.</p></div></section>
+      <section id="changes"><h2>10. Changes to these Terms</h2><p>We may update these Terms when laws or the service change. Material changes will be announced clearly, together with their effective date, in the app or on this site.</p></section>
+      <section id="apple"><h2>11. Relationship with Apple</h2><p>These Terms are between you and the operator of Compri, not Apple. Apple is not responsible for providing, maintaining, supporting, or warranting Compri, or for addressing claims by you or a third party relating to the service.</p><p>You must also comply with applicable App Store and other third-party terms. Apple and its subsidiaries are third-party beneficiaries of this section.</p><div class="pending-box"><strong>If submitted as a Custom EULA</strong><p>Before these Terms are entered in App Store Connect as a Custom EULA, they must include Apple’s minimum required terms and the operator’s legal name, address, and contact details and receive professional review. Until then, Apple’s standard EULA is assumed.</p></div></section>
+      <section id="law"><h2>12. Governing law, disputes, and contact</h2><div class="pending-box"><strong>To be finalized</strong><p>Because Compri is intended for international use, governing law, jurisdiction, dispute resolution, and mandatory regional consumer protections require professional review.</p></div>{siteConfig.supportEmail ? <p>Contact: <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a></p> : <p>A domain-based contact address will be added before publication.</p>}<p>Last updated: {siteConfig.lastUpdatedEn}</p></section>
+    </article>
+  </div>
+</BaseLayout>

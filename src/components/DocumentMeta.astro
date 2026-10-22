@@ -1,0 +1,16 @@
+---
+import { siteConfig } from '@/config/site';
+
+interface Props {
+  lang?: 'ja' | 'en';
+}
+
+const { lang = 'ja' } = Astro.props;
+const isEnglish = lang === 'en';
+---
+
+<div class="document-meta" aria-label={isEnglish ? 'Document information' : '文書情報'}>
+  <span class="document-meta__status">{siteConfig.draft ? (isEnglish ? 'Public draft' : '公開前ドラフト') : (isEnglish ? 'Published' : '公開版')}</span>
+  <span>{isEnglish ? 'Last updated' : '最終更新'}: <time datetime={siteConfig.lastUpdatedISO}>{isEnglish ? siteConfig.lastUpdatedEn : siteConfig.lastUpdated}</time></span>
+  <span>{isEnglish ? 'Language' : '言語'}: {isEnglish ? 'English' : '日本語'}</span>
+</div>

@@ -1,0 +1,273 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import DocumentMeta from '@/components/DocumentMeta.astro';
+import { siteConfig } from '@/config/site';
+---
+
+<BaseLayout title="アカウント削除" description="Compriのアカウントと保存データを削除する手順、共有世帯ごとの注意事項をご案内します。">
+  <PageHeader eyebrow="アカウント削除" title="アカウントを削除する" lead="Compriではアプリ内から削除を申し込めます。サインアウトやアプリのアンインストールとは異なる操作です。" />
+  <DocumentMeta />
+
+  <div class="deletion-layout">
+    <aside class="deletion-summary">
+      <p class="eyebrow">削除する前に</p>
+      <h2>削除後は<br />元に戻せません。</h2>
+      <p>アカウントと対象データは復元できなくなります。共有中の場合は、ご自身の役割に応じた操作が必要です。</p>
+    </aside>
+
+    <article class="deletion-content">
+      <section>
+        <span class="step-number">01</span>
+        <div>
+          <h2>アプリ内で削除を開始</h2>
+          <ol class="app-steps">
+            <li><span>1</span><p>Compriを開き、<strong>設定</strong>へ進みます。</p></li>
+            <li><span>2</span><p><strong>アカウント</strong>を開き、<strong>アカウントを削除</strong>を選びます。</p></li>
+            <li><span>3</span><p>表示される注意事項と削除範囲を確認し、画面の案内に沿って確定します。</p></li>
+          </ol>
+        </div>
+      </section>
+
+      <section>
+        <span class="step-number">02</span>
+        <div>
+          <h2>共有状態を確認</h2>
+          <div class="role-grid">
+            <article>
+              <small>SOLE USER</small>
+              <h3>共有していない</h3>
+              <p>アカウントと、その利用者のみが利用している世帯データを削除します。</p>
+            </article>
+            <article>
+              <small>GUEST</small>
+              <h3>共有世帯の参加者</h3>
+              <p>共有世帯から退出したうえで、ご自身のアカウントを削除します。世帯側の共有データは所有者のもとに残る場合があります。</p>
+            </article>
+            <article>
+              <small>OWNER</small>
+              <h3>参加者がいる所有者</h3>
+              <p>参加者がいる状態では、先に共有関係を解消する必要があります。アプリの案内に従って参加者を解除してから削除してください。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <span class="step-number">03</span>
+        <div>
+          <h2>削除処理の内容</h2>
+          <ul>
+            <li>Supabase上のアカウントと、削除対象となる買い物記録・共有関連データを削除します。</li>
+            <li>Appleでサインインを連携している場合、Appleの認証トークンを失効させます。</li>
+            <li>端末内の認証状態および関連するローカルデータを消去します。</li>
+            <li>削除完了の確認用に、生の利用者IDではなくハッシュ化したreceiptを一時的に保持します。</li>
+          </ul>
+          <div class="receipt-note">
+            <strong>削除完了receiptについて</strong>
+            <p>receiptは30日を超えると完了判定に使用しません。現在は定期Cronではなく、次回の削除状態確認時に期限切れreceiptを物理削除する方式です。</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <span class="step-number">04</span>
+        <div>
+          <h2>削除できない場合</h2>
+          <p>通信状態を確認し、アプリを最新版にしたうえで再度お試しください。共有世帯の所有者は、参加者が残っていないか確認してください。</p>
+          {siteConfig.supportEmail ? (
+            <p>解決しない場合は <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a> へお問い合わせください。</p>
+          ) : (
+            <div class="pending-box">
+              <strong>問い合わせ先は準備中です</strong>
+              <p>独自ドメイン取得後に正式なサポートメールアドレスを掲載します。</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <div class="signout-note">
+        <strong>サインアウトだけでは削除されません</strong>
+        <p>サインアウトまたはアプリのアンインストールを行っても、クラウド上のアカウントとデータは残ります。</p>
+      </div>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .deletion-layout {
+    display: grid;
+    grid-template-columns: .75fr 1.45fr;
+    gap: clamp(2rem, 7vw, 6rem);
+    padding-bottom: 7rem;
+  }
+
+  .deletion-summary {
+    position: sticky;
+    top: 1.5rem;
+    align-self: start;
+    padding: 1.3rem 0;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .deletion-summary h2 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .deletion-summary > p:last-child {
+    margin: 1.2rem 0 0;
+    color: var(--ink-muted);
+    font-size: .9rem;
+  }
+
+  .deletion-content > section {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    padding: 2.4rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .deletion-content > section:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .step-number {
+    color: var(--accent);
+    font-size: .72rem;
+    font-weight: 850;
+  }
+
+  .deletion-content h2 {
+    margin: 0 0 1.2rem;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+  }
+
+  .deletion-content p,
+  .deletion-content li {
+    color: var(--ink-muted);
+  }
+
+  .deletion-content ul {
+    padding-left: 1.25rem;
+  }
+
+  .deletion-content li + li {
+    margin-top: .55rem;
+  }
+
+  .app-steps {
+    display: grid;
+    gap: .7rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .app-steps li {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    align-items: center;
+    gap: .75rem;
+    padding: .75rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .app-steps li > span {
+    width: 2rem;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    color: var(--accent);
+    font-size: .75rem;
+    font-weight: 850;
+  }
+
+  .app-steps p {
+    margin: 0;
+  }
+
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .7rem;
+  }
+
+  .role-grid article {
+    padding: 1rem 0;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .role-grid small {
+    color: var(--accent);
+    font-size: .62rem;
+    font-weight: 850;
+    letter-spacing: .08em;
+  }
+
+  .role-grid h3 {
+    margin: .45rem 0 .5rem;
+    font-size: 1rem;
+  }
+
+  .role-grid p {
+    margin: 0;
+    font-size: .82rem;
+  }
+
+  .receipt-note {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.2rem;
+    border-left: 4px solid var(--accent);
+    border-radius: 4px var(--radius-control) var(--radius-control) 4px;
+    background: var(--accent-soft);
+  }
+
+  .receipt-note strong {
+    display: block;
+    margin-bottom: .25rem;
+  }
+
+  .receipt-note p {
+    margin: 0;
+    font-size: .9rem;
+  }
+
+  .signout-note {
+    padding: 1.2rem 1.35rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-control);
+  }
+
+  .signout-note strong {
+    display: block;
+    margin-bottom: .25rem;
+  }
+
+  .signout-note p {
+    margin: 0;
+  }
+
+  @media (max-width: 850px) {
+    .deletion-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .deletion-summary {
+      position: static;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .deletion-content > section {
+      grid-template-columns: 1fr;
+    }
+
+    .role-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

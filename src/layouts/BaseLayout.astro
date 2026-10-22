@@ -1,0 +1,156 @@
+---
+import DraftNotice from '@/components/DraftNotice.astro';
+import { siteConfig } from '@/config/site';
+import { sitePath } from '@/lib/paths';
+import '@/styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: 'ja' | 'en';
+  hasAlternate?: boolean;
+}
+
+const {
+  title = siteConfig.title,
+  description = siteConfig.description,
+  lang = 'ja',
+  hasAlternate = true,
+} = Astro.props;
+const isEnglish = lang === 'en';
+const pageTitle = title === siteConfig.title ? title : `${title} | ${siteConfig.name}`;
+const operator = siteConfig.tradeName || siteConfig.operatorName;
+const currentPath = Astro.url.pathname;
+const baseURL = import.meta.env.BASE_URL;
+const routePath = currentPath.startsWith(baseURL)
+  ? `/${currentPath.slice(baseURL.length)}`
+  : currentPath;
+const normalizedRoute = routePath === '//' ? '/' : routePath;
+const japaneseRoute = isEnglish
+  ? (normalizedRoute === '/en/' ? '/' : normalizedRoute.replace(/^\/en/, ''))
+  : normalizedRoute;
+const englishRoute = isEnglish
+  ? normalizedRoute
+  : (normalizedRoute === '/' ? '/en/' : `/en${normalizedRoute}`);
+const absoluteSiteURL = (route: string) => new URL(sitePath(route), Astro.url.origin);
+const canonicalURL = absoluteSiteURL(normalizedRoute);
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: pageTitle,
+  description,
+  inLanguage: lang,
+  url: canonicalURL.toString(),
+  isPartOf: {
+    '@type': 'WebSite',
+    name: siteConfig.name,
+    url: absoluteSiteURL(isEnglish ? '/en/' : '/').toString(),
+  },
+};
+const navItems = isEnglish
+  ? [
+      { href: '/en/', label: 'Home' },
+      { href: '/en/support/', label: 'Support' },
+      { href: '/en/privacy/', label: 'Privacy' },
+      { href: '/en/terms/', label: 'Terms' },
+    ]
+  : [
+      { href: '/', label: 'ホーム' },
+      { href: '/support/', label: 'サポート' },
+      { href: '/privacy/', label: 'プライバシー' },
+      { href: '/terms/', label: '利用規約' },
+    ];
+const languageHref = isEnglish ? sitePath('/') : sitePath('/en/');
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={isEnglish ? 'en_US' : 'ja_JP'} />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111215" media="(prefers-color-scheme: dark)" />
+    {siteConfig.draft && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" href={sitePath('/favicon.svg')} type="image/svg+xml" />
+    <link rel="canonical" href={canonicalURL} />
+    {hasAlternate && (
+      <>
+        <link rel="alternate" hreflang="ja" href={absoluteSiteURL(japaneseRoute)} />
+        <link rel="alternate" hreflang="en" href={absoluteSiteURL(englishRoute)} />
+        <link rel="alternate" hreflang="x-default" href={absoluteSiteURL(japaneseRoute)} />
+      </>
+    )}
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">{isEnglish ? 'Skip to content' : '本文へ移動'}</a>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="brand" href={sitePath(isEnglish ? '/en/' : '/')} aria-label={isEnglish ? 'Compri support home' : 'Compri サポート ホーム'}>
+          <img class="brand__mark" src={sitePath('/favicon.svg')} alt="" width="34" height="34" />
+          <span class="brand__text">
+            <strong>Compri</strong>
+            <small>{isEnglish ? 'Support' : 'サポート'}</small>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label={isEnglish ? 'Main navigation' : 'メインナビゲーション'}>
+          {navItems.map((item) => {
+            const resolvedHref = sitePath(item.href);
+            const itemPath = item.href === '/' ? import.meta.env.BASE_URL : resolvedHref;
+            const isHome = item.href === '/' || item.href === '/en/';
+            const isCurrent = isHome
+              ? currentPath === itemPath
+              : currentPath.startsWith(resolvedHref);
+
+            return (
+              <a href={resolvedHref} aria-current={isCurrent ? 'page' : undefined}>
+                {item.label}
+              </a>
+            );
+          })}
+          <a class="language-switch" href={languageHref} lang={isEnglish ? 'ja' : 'en'}>
+            {isEnglish ? '日本語' : 'EN'}
+          </a>
+        </nav>
+      </header>
+
+      <DraftNotice lang={lang} />
+
+      <main id="main-content">
+        <slot />
+      </main>
+
+      <footer class="site-footer">
+        <div>
+          <a class="brand brand--footer" href={sitePath(isEnglish ? '/en/' : '/')}>
+            <img class="brand__mark" src={sitePath('/favicon.svg')} alt="" width="30" height="30" />
+            <span class="brand__text"><strong>Compri</strong></span>
+          </a>
+          <p>{isEnglish ? 'Make everyday shopping clearer through your own records.' : '毎日の買い物を、記録から少しわかりやすく。'}</p>
+        </div>
+        <nav aria-label="フッターナビゲーション">
+          <a href={sitePath(isEnglish ? '/en/support/' : '/support/')}>{isEnglish ? 'Support' : 'サポート'}</a>
+          <a href={sitePath(isEnglish ? '/en/privacy/' : '/privacy/')}>{isEnglish ? 'Privacy Policy' : 'プライバシーポリシー'}</a>
+          <a href={sitePath(isEnglish ? '/en/terms/' : '/terms/')}>{isEnglish ? 'Terms of Service' : '利用規約'}</a>
+          <a href={sitePath(isEnglish ? '/en/account-deletion/' : '/account-deletion/')}>{isEnglish ? 'Account deletion' : 'アカウント削除'}</a>
+        </nav>
+        <div class="site-footer__meta">
+          <p>{operator ? `${isEnglish ? 'Operator' : '運営者'}: ${operator}` : (isEnglish ? 'Operator details will be finalized before publication' : '運営者情報は公開前に確定します')}</p>
+          <p>© {new Date().getFullYear()} Compri</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

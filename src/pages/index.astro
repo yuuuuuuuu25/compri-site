@@ -1,0 +1,281 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SupportCard from '@/components/SupportCard.astro';
+import { sitePath } from '@/lib/paths';
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="hero__copy">
+      <p class="eyebrow">Compri サポート</p>
+      <h1>記録と比較を、<br />安心して使うために。</h1>
+      <p>
+        Compriは、日々の価格記録から、いつもの品物をどのお店で買うとよいか比べるためのiPhoneアプリです。ここでは使い方やデータの取扱いをご案内します。
+      </p>
+      <div class="hero__actions">
+        <a class="button button--primary" href={sitePath('/support/')}>よくある質問を見る</a>
+        <a class="text-link" href={sitePath('/privacy/')}>データの取扱いを確認 <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+
+    <aside class="hero__summary" aria-label="Compriの概要">
+      <p>Compriについて</p>
+      <dl>
+        <div><dt>対応端末</dt><dd>iPhone</dd></div>
+        <div><dt>主な機能</dt><dd>価格の記録・比較</dd></div>
+        <div><dt>共有</dt><dd>1つの世帯を最大2人で共有</dd></div>
+      </dl>
+    </aside>
+  </section>
+
+  <section class="support-links" aria-labelledby="links-title">
+    <div class="section-heading">
+      <p class="eyebrow">ご案内</p>
+      <h2 id="links-title">必要な情報を探す</h2>
+      <p>アプリの使い方から、データの取扱い、アカウント削除まで確認できます。</p>
+    </div>
+    <div class="support-links__list">
+      <SupportCard href={sitePath('/support/')} number="01" title="サポート" description="よくある質問と問い合わせ方法" />
+      <SupportCard href={sitePath('/privacy/')} number="02" title="プライバシーポリシー" description="データの取得・利用・共有・削除" />
+      <SupportCard href={sitePath('/terms/')} number="03" title="利用規約" description="Compriを利用する際のルール" />
+      <SupportCard href={sitePath('/account-deletion/')} number="04" title="アカウント削除" description="アプリ内の手順と削除されるデータ" />
+    </div>
+  </section>
+
+  <section class="data-overview" aria-labelledby="data-title">
+    <div class="section-heading">
+      <p class="eyebrow">データの取扱い</p>
+      <h2 id="data-title">アプリ内の記録について</h2>
+    </div>
+    <div class="data-overview__rows">
+      <article>
+        <h3>買い物の記録</h3>
+        <p>品目、店舗、価格、数量、単位、記録日をSupabaseへ保存します。</p>
+      </article>
+      <article>
+        <h3>共有世帯</h3>
+        <p>共有に参加すると、最大2人で同じ品目・店舗・価格履歴を確認できます。</p>
+      </article>
+      <article>
+        <h3>画像からの文字認識</h3>
+        <p>Apple Visionを使って端末内で処理します。撮影・選択した画像自体は外部へ送信しません。</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(260px, .62fr);
+    align-items: end;
+    gap: clamp(3rem, 9vw, 8rem);
+    padding: clamp(4.5rem, 10vw, 8rem) 0 clamp(4.5rem, 9vw, 7rem);
+  }
+
+  .hero__copy {
+    max-width: 730px;
+  }
+
+  .hero h1 {
+    margin: 0;
+    font-size: clamp(2.65rem, 5.7vw, 4.45rem);
+    font-weight: 750;
+    line-height: 1.15;
+    letter-spacing: -.045em;
+  }
+
+  .hero__copy > p:not(.eyebrow) {
+    max-width: 660px;
+    margin: 1.45rem 0 0;
+    color: var(--ink-muted);
+    font-size: clamp(1rem, 1.7vw, 1.12rem);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.35rem;
+    align-items: center;
+    margin-top: 1.8rem;
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: .65rem 1rem;
+    border-radius: 11px;
+    font-size: .88rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .button--primary {
+    background: var(--accent);
+    color: white;
+  }
+
+  .text-link {
+    color: var(--accent);
+    font-size: .88rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .text-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .hero__summary {
+    padding: 1rem 0;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero__summary > p {
+    margin: 0 0 .8rem;
+    font-size: .78rem;
+    font-weight: 700;
+  }
+
+  .hero__summary dl {
+    margin: 0;
+  }
+
+  .hero__summary dl > div {
+    display: grid;
+    grid-template-columns: 5.3rem 1fr;
+    gap: .7rem;
+    padding: .48rem 0;
+    border-top: 1px solid var(--line);
+    font-size: .8rem;
+  }
+
+  .hero__summary dt {
+    color: var(--ink-muted);
+  }
+
+  .hero__summary dd {
+    margin: 0;
+  }
+
+  .support-links,
+  .data-overview {
+    display: grid;
+    grid-template-columns: minmax(190px, .42fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 7vw, 6rem);
+    padding: clamp(3.5rem, 8vw, 6rem) 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .section-heading h2 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3.8vw, 2.8rem);
+  }
+
+  .section-heading > p:last-child {
+    margin: .8rem 0 0;
+    color: var(--ink-muted);
+    font-size: .9rem;
+  }
+
+  .support-links__list {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  :global(.support-card) {
+    display: grid;
+    grid-template-columns: 2.3rem 1fr auto;
+    gap: .8rem;
+    align-items: center;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+  }
+
+  :global(.support-card:hover .support-card__body strong),
+  :global(.support-card:hover .support-card__arrow) {
+    color: var(--accent);
+  }
+
+  :global(.support-card__number) {
+    color: var(--ink-muted);
+    font-size: .68rem;
+  }
+
+  :global(.support-card__body strong),
+  :global(.support-card__body span) {
+    display: block;
+  }
+
+  :global(.support-card__body strong) {
+    font-size: 1.02rem;
+  }
+
+  :global(.support-card__body span) {
+    margin-top: .12rem;
+    color: var(--ink-muted);
+    font-size: .8rem;
+  }
+
+  :global(.support-card__arrow) {
+    font-size: 1rem;
+  }
+
+  .data-overview__rows {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .data-overview__rows article {
+    display: grid;
+    grid-template-columns: minmax(130px, .36fr) 1fr;
+    gap: 1.5rem;
+    padding: 1.35rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .data-overview__rows h3,
+  .data-overview__rows p {
+    margin: 0;
+  }
+
+  .data-overview__rows h3 {
+    font-size: .95rem;
+  }
+
+  .data-overview__rows p {
+    color: var(--ink-muted);
+    font-size: .88rem;
+  }
+
+  @media (max-width: 760px) {
+    .hero,
+    .support-links,
+    .data-overview {
+      grid-template-columns: 1fr;
+    }
+
+    .hero {
+      gap: 2.8rem;
+      padding: 3.8rem 0 4.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.35rem, 10vw, 3.25rem);
+    }
+
+    .support-links,
+    .data-overview {
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .data-overview__rows article {
+      grid-template-columns: 1fr;
+      gap: .35rem;
+    }
+  }
+</style>

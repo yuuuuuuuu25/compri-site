@@ -1,0 +1,21 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  breakTitleAt?: string;
+}
+
+const { eyebrow, title, lead, breakTitleAt } = Astro.props;
+const breakIndex = breakTitleAt ? title.indexOf(breakTitleAt) : -1;
+---
+
+<header class="page-header">
+  <p class="eyebrow">{eyebrow}</p>
+  <h1>
+    {breakIndex > 0 ? (
+      <>{title.slice(0, breakIndex)}<br />{title.slice(breakIndex)}</>
+    ) : title}
+  </h1>
+  <p class="page-header__lead">{lead}</p>
+</header>

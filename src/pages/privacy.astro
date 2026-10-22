@@ -1,0 +1,147 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import DocumentMeta from '@/components/DocumentMeta.astro';
+import { siteConfig } from '@/config/site';
+
+const sections = [
+  ['overview', '基本方針'],
+  ['data', '取り扱う情報'],
+  ['purpose', '利用目的'],
+  ['auth', '認証'],
+  ['sharing', '共有世帯'],
+  ['image', '画像・OCR'],
+  ['device', '端末内データ'],
+  ['vendors', '外部サービス'],
+  ['retention', '保持・削除'],
+  ['security', '安全管理'],
+  ['contact', '問い合わせ・変更'],
+] as const;
+---
+
+<BaseLayout title="プライバシーポリシー" description="Compriにおける利用者情報の取得、利用、共有、保持、削除について説明します。">
+  <PageHeader eyebrow="プライバシーポリシー・公開前ドラフト" title="プライバシーポリシー" lead="Compriがどの情報を、何のために取り扱うかを、現在のアプリ実装に基づいて説明します。" />
+  <DocumentMeta />
+
+  <div class="content-grid">
+    <nav class="content-nav" aria-label="ページ内メニュー">
+      <strong>このページの内容</strong>
+      {sections.map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
+    </nav>
+
+    <article class="legal-content">
+      <div class="pending-box">
+        <strong>公開前ドラフト</strong>
+        <p>運営者の正式表記、問い合わせ先、対象年齢、国外利用に関する方針は未確定です。専門家確認とApp Store Connectの最終照合も未実施です。</p>
+      </div>
+
+      <section id="overview">
+        <h2>1. 基本方針</h2>
+        <p>Compriは、品物の価格を記録し、店舗間の比較や共有を行うiOSアプリです。本ポリシーは、Compriにおける利用者情報の取扱いを説明するものです。</p>
+        <p>現在の運営者は個人です。正式な氏名または将来の屋号を含む表示は、公開前に確定します。</p>
+      </section>
+
+      <section id="data">
+        <h2>2. 取り扱う情報</h2>
+        <h3>利用者が登録する買い物情報</h3>
+        <ul>
+          <li>品目名、絵文字、比較単位または区分</li>
+          <li>店舗名</li>
+          <li>価格、数量、単位、記録日</li>
+          <li>共有時に利用者が設定する表示名</li>
+          <li>共有世帯への参加・招待に必要な情報</li>
+        </ul>
+        <h3>アカウント・認証情報</h3>
+        <ul>
+          <li>Supabase Authが発行する利用者識別子</li>
+          <li>匿名認証のセッション情報</li>
+          <li>Appleでサインインを利用した場合に認証処理で扱うAppleの利用者識別子、IDトークン、認証コード</li>
+        </ul>
+        <div class="fact-box">
+          <strong>氏名・メールアドレスのscopeは要求していません</strong>
+          <p>現在のアプリはAppleでサインインの氏名・メールアドレスscopeを要求しておらず、共有用の表示名にもAppleアカウントの氏名やメールアドレスを転記しません。認証のため、AppleのIDトークンに含まれる識別情報はSupabase Authへ送信します。</p>
+        </div>
+      </section>
+
+      <section id="purpose">
+        <h2>3. 利用目的</h2>
+        <ul>
+          <li>アカウントの作成、認証、セッション維持</li>
+          <li>品目・店舗・価格履歴の保存、同期、表示、比較</li>
+          <li>共有世帯の作成、招待、参加、共同利用</li>
+          <li>Widgetへの情報表示</li>
+          <li>アカウント削除の受付、実行、完了確認</li>
+          <li>不具合対応、不正利用防止、安全性の維持</li>
+        </ul>
+        <p>現時点のアプリ実装では、広告配信や第三者の行動追跡を目的としたデータ利用は行っていません。</p>
+      </section>
+
+      <section id="auth">
+        <h2>4. 匿名認証とAppleでサインイン</h2>
+        <p>CompriはSupabase Authによる匿名認証を使用します。匿名利用であっても、クラウド上の記録を利用者ごとに区別するための識別子とセッション情報を扱います。</p>
+        <p>利用者は、匿名アカウントにAppleでサインインを連携できます。連携後はAppleの認証情報を用いてアカウントへアクセスできます。Appleの認証処理はAppleおよびSupabaseの仕組みを利用します。</p>
+      </section>
+
+      <section id="sharing">
+        <h2>5. 共有世帯</h2>
+        <p>共有世帯は最大2人で利用できます。参加者は、相互に設定した共有用の表示名と、同じ世帯に保存された品目、店舗、価格、数量、単位、記録日などの買い物情報を閲覧・編集できます。</p>
+        <p>共有を開始する前に、相手が閲覧できる情報を確認してください。共有を解除またはアカウントを削除した場合のデータの扱いは、利用者の役割や世帯の状態により異なります。</p>
+      </section>
+
+      <section id="image">
+        <h2>6. 撮影画像とOCR</h2>
+        <p>価格入力を補助するため、カメラで撮影した画像またはフォトライブラリから選択した画像を、Apple Visionにより端末内で文字認識します。</p>
+        <div class="fact-box">
+          <strong>画像自体はクラウドへ保存しません</strong>
+          <p>現在の実装では、OCR対象の画像をCompriまたはSupabaseへアップロードする処理はありません。認識結果を確認し、価格などの記録として保存した場合、その入力値はクラウドへ保存されます。</p>
+        </div>
+      </section>
+
+      <section id="device">
+        <h2>7. Widgetと端末内データ</h2>
+        <p>アプリの動作、表示、Widget連携のため、設定値、認証セッション、表示用の限定的なスナップショットなどを端末内に保存します。Widget用データはApp Groupを通じてアプリとWidgetの間で共有されます。</p>
+        <p>Widgetは端末内のスナップショットを表示するため、アプリ内の最新情報と一時的に異なる場合があります。</p>
+      </section>
+
+      <section id="vendors">
+        <h2>8. 外部サービスへの送信・取扱いの委託</h2>
+        <h3>Supabase</h3>
+        <p>認証、データベース、サーバー側処理のためSupabaseを利用し、利用者識別子、認証情報、買い物記録、共有世帯情報などを取り扱います。詳細は<a href="https://supabase.com/privacy" rel="external">Supabase Privacy Policy</a>および<a href="https://supabase.com/legal/privacy-resources/data-residency-and-transfers-faq" rel="external">Data Residency and Transfers FAQ</a>をご確認ください。</p>
+        <h3>Apple</h3>
+        <p>Appleでサインイン、カメラ・フォトライブラリ、端末内OCR、Widgetなど、Appleが提供するOS機能を利用します。AppleでサインインではAppleと認証情報をやり取りします。詳細は<a href="https://www.apple.com/legal/privacy/" rel="external">Appleのプライバシーポリシー</a>をご確認ください。</p>
+        <p>各サービス提供者による情報の取扱いには、それぞれの利用規約およびプライバシーポリシーが適用されます。国外移転、委託先の所在地、契約上の保護措置については、公開前に利用構成と契約条件を確認して追記します。</p>
+      </section>
+
+      <section id="retention">
+        <h2>9. 保存期間とアカウント削除</h2>
+        <p>買い物記録は、サービス提供に必要な間、または利用者が削除するまで保存します。アプリ内からアカウント削除を申し込むと、権限や共有状態を確認したうえで、対象となるアカウントとデータを削除します。</p>
+        <p>Appleでサインインを連携している場合、削除処理の一環としてAppleの認証トークンを失効させます。</p>
+        <h3>削除完了receipt</h3>
+        <p>削除完了の確認のため、生の利用者IDではなくハッシュ化した識別値を含むreceiptを保持します。30日を超えたreceiptは削除完了判定に使いません。</p>
+        <div class="pending-box">
+          <strong>現在の物理削除タイミング</strong>
+          <p>30日経過時に自動実行するCronはなく、次回の削除状態確認時に期限切れreceiptを削除するopportunistic cleanupです。この保持・削除設計が法務上および説明上適切か、公開前に確認します。</p>
+        </div>
+      </section>
+
+      <section id="security">
+        <h2>10. 安全管理</h2>
+        <p>認証、アクセス制御、Row Level Securityなどを用い、利用者がアクセスできるデータを制限します。ただし、インターネット上の通信や保存の安全性を完全に保証するものではありません。</p>
+      </section>
+
+      <section id="contact">
+        <h2>11. 問い合わせと本ポリシーの変更</h2>
+        {siteConfig.supportEmail ? (
+          <p>本ポリシーや利用者情報に関する問い合わせ先: <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a></p>
+        ) : (
+          <div class="pending-box">
+            <strong>問い合わせ先は準備中です</strong>
+            <p>独自ドメイン取得後に正式なメールアドレスを掲載します。</p>
+          </div>
+        )}
+        <p>法令、サービス内容、取扱う情報の変更等に応じて、本ポリシーを改定する場合があります。重要な変更は、アプリ内または本サイト上で分かりやすくお知らせします。</p>
+        <p>最終更新日: {siteConfig.lastUpdated}</p>
+      </section>
+    </article>
+  </div>
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { sitePath } from '@/lib/paths';
+---
+
+<BaseLayout title="ページが見つかりません" hasAlternate={false}>
+  <section class="not-found">
+    <p class="eyebrow">404 / Not found</p>
+    <h1>このページは<br />見つかりませんでした。</h1>
+    <p>URLが変更されたか、ページが削除された可能性があります。</p>
+    <a href={sitePath('/')}>ホームへ戻る</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 68vh;
+    display: grid;
+    place-content: center;
+    justify-items: start;
+    padding: 5rem 0;
+  }
+
+  .not-found h1 {
+    margin: 0;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+  }
+
+  .not-found > p:not(.eyebrow) {
+    color: var(--ink-muted);
+  }
+
+  .not-found a {
+    margin-top: 1rem;
+    padding: .7rem 1rem;
+    border-radius: 12px;
+    background: var(--accent);
+    color: white;
+    font-weight: 750;
+    text-decoration: none;
+  }
+</style>

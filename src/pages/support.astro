@@ -1,0 +1,206 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { siteConfig } from '@/config/site';
+import { sitePath } from '@/lib/paths';
+
+const faqs = [
+  {
+    question: '匿名のまま使えますか？',
+    answer: 'はい。初回利用時に匿名アカウントを作成し、品目や価格記録をクラウドへ保存します。ただし、端末の紛失やアプリ削除などでセッションを失うと、匿名アカウントを復元できない場合があります。',
+  },
+  {
+    question: 'あとからAppleアカウントを連携できますか？',
+    answer: '匿名アカウントから「Appleでサインイン」を連携できます。連携すると、対応するAppleアカウントを使ってサインインできるようになります。',
+  },
+  {
+    question: '共有相手には何が見えますか？',
+    answer: '共有世帯では、利用者が設定した共有用の表示名と、世帯に属する品目、店舗、価格、数量、単位、記録日などの買い物記録を最大2人で共有します。Appleアカウントの氏名やメールアドレスを共有名として転記する実装はありません。',
+  },
+  {
+    question: '撮影した画像は送信されますか？',
+    answer: '価格入力を補助するOCRはApple Visionを使って端末内で処理します。撮影・選択した画像そのものをCompriのサーバーへアップロードする実装はありません。',
+  },
+  {
+    question: 'Widgetの表示がアプリと違うことがあります',
+    answer: 'Widgetは端末内に保存した限定的なスナップショットを表示します。更新のタイミングにより、アプリの最新状態と一時的に異なる場合があります。',
+  },
+  {
+    question: 'サインアウトするとデータは削除されますか？',
+    answer: 'いいえ。サインアウトとアカウント削除は異なります。完全な削除を希望する場合は、アプリ内のアカウント削除機能を利用してください。',
+  },
+];
+---
+
+<BaseLayout title="サポート" description="Compriのよくある質問、アカウント削除、問い合わせ方法をご案内します。">
+  <PageHeader eyebrow="サポート" title="困ったときの案内" lead="アカウント、共有、画像認識、データ削除について、現在のアプリ仕様に沿ってご案内します。" />
+
+  <section class="support-section" aria-labelledby="faq-title">
+    <div class="section-index">
+      <span>01</span>
+      <h2 id="faq-title">よくある質問</h2>
+    </div>
+    <div class="faq-list">
+      {faqs.map((faq) => (
+        <details>
+          <summary>{faq.question}<span aria-hidden="true">＋</span></summary>
+          <p>{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <section class="support-section" aria-labelledby="delete-title">
+    <div class="section-index">
+      <span>02</span>
+      <h2 id="delete-title">アカウント削除</h2>
+    </div>
+    <div class="action-panel">
+      <div>
+        <p class="action-panel__label">削除手順</p>
+        <h3>削除される範囲と手順を確認する</h3>
+        <p>共有世帯での役割により、削除前に必要な操作が異なる場合があります。</p>
+      </div>
+      <a href={sitePath('/account-deletion/')}>削除案内へ <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section class="support-section" aria-labelledby="contact-title">
+    <div class="section-index">
+      <span>03</span>
+      <h2 id="contact-title">問い合わせ</h2>
+    </div>
+    <div class="contact-panel">
+      {siteConfig.supportEmail ? (
+        <>
+          <p>不具合報告やご質問は、次のメールアドレスへお送りください。</p>
+          <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a>
+        </>
+      ) : (
+        <>
+          <p class="contact-panel__status">公開前の確認事項</p>
+          <h3>正式な問い合わせ先は準備中です。</h3>
+          <p>独自ドメイン取得後、ドメインのメールアドレスを設定する予定です。架空の連絡先は掲載していません。</p>
+        </>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .support-section {
+    display: grid;
+    grid-template-columns: .34fr 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    padding: 3rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .support-section:last-child {
+    padding-bottom: 6rem;
+  }
+
+  .section-index span {
+    color: var(--accent);
+    font-size: .72rem;
+    font-weight: 850;
+  }
+
+  .section-index h2 {
+    margin: .4rem 0 0;
+    font-size: clamp(1.55rem, 3vw, 2.25rem);
+  }
+
+  details {
+    border-top: 1px solid var(--line);
+  }
+
+  details:first-child {
+    border-top: 0;
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    cursor: pointer;
+    font-weight: 750;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary span {
+    display: inline-block;
+    color: var(--accent);
+    font-size: 1.2rem;
+  }
+
+  details[open] summary span {
+    transform: rotate(45deg);
+  }
+
+  details p {
+    max-width: 720px;
+    margin: -.25rem 2.5rem 1.25rem 0;
+    color: var(--ink-muted);
+  }
+
+  .action-panel,
+  .contact-panel {
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .action-panel {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .action-panel__label,
+  .contact-panel__status {
+    margin: 0 0 .6rem;
+    color: var(--accent);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+  }
+
+  .action-panel h3,
+  .contact-panel h3 {
+    margin: 0;
+    font-size: clamp(1.25rem, 3vw, 1.7rem);
+  }
+
+  .action-panel p:not(.action-panel__label),
+  .contact-panel p:not(.contact-panel__status) {
+    margin: .65rem 0 0;
+    color: var(--ink-muted);
+  }
+
+  .action-panel a,
+  .contact-panel a {
+    flex: none;
+    color: var(--accent);
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  @media (max-width: 760px) {
+    .support-section {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .action-panel {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>

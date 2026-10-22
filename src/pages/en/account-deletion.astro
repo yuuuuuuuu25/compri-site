@@ -1,0 +1,42 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import DocumentMeta from '@/components/DocumentMeta.astro';
+import { siteConfig } from '@/config/site';
+---
+
+<BaseLayout lang="en" title="Account deletion" description="How to delete your Compri account and understand what happens to shared household data.">
+  <PageHeader eyebrow="Account deletion" title="Delete your account" lead="You can request deletion from inside Compri. This is different from signing out or uninstalling the app." />
+  <DocumentMeta lang="en" />
+  <article class="delete-guide">
+    <aside><p class="eyebrow">Before you delete</p><h2>Deletion cannot<br />be undone.</h2><p>Your role in a shared household determines what you need to do first and which records remain.</p></aside>
+    <div class="steps">
+      <section><small>01</small><div><h2>Start in the app</h2><ol><li>Open Compri and go to <strong>Settings</strong>.</li><li>Open <strong>Account</strong> and choose <strong>Delete account</strong>.</li><li>Review the scope and follow the confirmation steps.</li></ol></div></section>
+      <section><small>02</small><div><h2>Check your household role</h2><div class="roles"><article><b>SOLE USER</b><h3>No active sharing</h3><p>Your account, private household, and its shopping records are deleted.</p></article><article><b>GUEST</b><h3>Household member</h3><p>Your membership, dormant private household, and account are deleted. Records in the owner’s shared household remain.</p></article><article><b>OWNER</b><h3>Owner with a guest</h3><p>You must remove the active guest before deletion. Until then, deletion is refused and the shared household is unchanged.</p></article></div></div></section>
+      <section><small>03</small><div><h2>What the process does</h2><ul><li>Deletes the Supabase account and eligible shopping and household data</li><li>Revokes the Apple authorization token when Sign in with Apple is linked</li><li>Clears the session, in-memory models, widget snapshot, and account-specific local data after server confirmation</li><li>Temporarily retains a completion receipt containing a hashed identifier, not the raw user ID</li></ul><div class="fact-box"><strong>Completion receipt</strong><p>Receipts older than 30 days are not used to confirm deletion. Expired receipts are physically removed opportunistically during a later signed-in deletion-status check; there is currently no scheduled cleanup job.</p></div></div></section>
+      <section><small>04</small><div><h2>If deletion fails</h2><p>Check your connection, update the app, and try again. Household owners should confirm that no active guest remains.</p>{siteConfig.supportEmail ? <p>Contact <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a> if the issue continues.</p> : <div class="pending-box"><strong>Contact details are being prepared</strong><p>A domain-based support email will be added before publication.</p></div>}</div></section>
+      <div class="warning"><strong>Signing out is not deletion</strong><p>Signing out or uninstalling Compri does not delete the cloud account or its records.</p></div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .delete-guide { display: grid; grid-template-columns: .72fr 1.5fr; gap: clamp(2rem, 7vw, 6rem); padding-bottom: 7rem; }
+  .delete-guide > aside { position: sticky; top: 1.5rem; align-self: start; padding: 1.3rem 0; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line); }
+  .delete-guide > aside h2 { margin: 0; font-size: clamp(2rem, 4vw, 3rem); }
+  .delete-guide > aside > p:last-child { color: var(--ink-muted); font-size: .9rem; }
+  .steps > section { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding: 2.4rem 0; border-top: 1px solid var(--line); }
+  .steps > section:first-child { padding-top: 0; border-top: 0; }
+  .steps section > small { color: var(--accent); font-weight: 850; }
+  .steps h2 { margin: 0 0 1rem; font-size: clamp(1.4rem, 3vw, 2rem); }
+  .steps p, .steps li { color: var(--ink-muted); }
+  .roles { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }
+  .roles article { padding: 1rem 0; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line); }
+  .roles b { color: var(--accent); font-size: .62rem; letter-spacing: .08em; }
+  .roles h3 { margin: .45rem 0 .5rem; font-size: 1rem; }
+  .roles p { margin: 0; font-size: .82rem; }
+  .warning { padding: 1.2rem; border: 1px solid var(--line); border-radius: var(--radius-control); }
+  .warning p { margin: .25rem 0 0; }
+  @media (max-width: 850px) { .delete-guide { grid-template-columns: 1fr; } .delete-guide > aside { position: static; } }
+  @media (max-width: 600px) { .steps > section { grid-template-columns: 1fr; } .roles { grid-template-columns: 1fr; } }
+</style>

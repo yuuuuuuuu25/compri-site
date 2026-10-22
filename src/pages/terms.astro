@@ -1,0 +1,134 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import DocumentMeta from '@/components/DocumentMeta.astro';
+import { siteConfig } from '@/config/site';
+
+const sections = [
+  ['scope', '適用'],
+  ['service', 'サービス内容'],
+  ['account', 'アカウント'],
+  ['sharing', '共有機能'],
+  ['data', '入力データ'],
+  ['prohibited', '禁止事項'],
+  ['changes', '変更・停止'],
+  ['deletion', '削除・終了'],
+  ['disclaimer', '免責・責任'],
+  ['revision', '規約変更'],
+  ['apple', 'Appleとの関係'],
+  ['law', '準拠法・管轄'],
+] as const;
+---
+
+<BaseLayout title="利用規約" description="Compriの利用条件、禁止事項、免責事項などを定める利用規約です。">
+  <PageHeader eyebrow="利用規約・公開前ドラフト" title="利用規約" lead="Compriを安心して利用いただくための基本的なルールと、サービスの性質上ご理解いただきたい事項をまとめます。" />
+  <DocumentMeta />
+
+  <div class="content-grid">
+    <nav class="content-nav" aria-label="ページ内メニュー">
+      <strong>このページの内容</strong>
+      {sections.map(([id, label]) => <a href={`#${id}`}>{label}</a>)}
+    </nav>
+
+    <article class="legal-content">
+      <div class="pending-box">
+        <strong>公開前ドラフト</strong>
+        <p>対象年齢、準拠法、合意管轄、運営者情報、問い合わせ先、将来の課金条件は未確定です。公開前に専門家による確認を推奨します。</p>
+      </div>
+
+      <section id="scope">
+        <h2>1. 適用</h2>
+        <p>本規約は、Compriの利用条件を定めるものです。利用者は、本規約およびプライバシーポリシーに同意のうえ、Compriを利用するものとします。</p>
+      </section>
+
+      <section id="service">
+        <h2>2. サービス内容</h2>
+        <p>Compriは、利用者が品目、店舗、価格、数量、単位、記録日を登録し、単位価格や店舗間の価格を比較するためのサービスです。共有世帯では、最大2人で買い物記録を共有できます。</p>
+        <p>Compriは、店舗による公式な価格情報の提供、商品の販売、購入の仲介または価格保証を行うものではありません。</p>
+      </section>
+
+      <section id="account">
+        <h2>3. アカウントと認証</h2>
+        <p>Compriは匿名認証で利用を開始できます。匿名アカウントのセッションを失った場合、登録データへアクセスできなくなることがあります。継続的なアクセスを希望する場合は、Appleでサインインの連携を検討してください。</p>
+        <p>利用者は、自己の端末、Appleアカウントおよび認証情報を適切に管理する責任を負います。</p>
+      </section>
+
+      <section id="sharing">
+        <h2>4. 共有世帯</h2>
+        <p>共有世帯に参加した利用者は、同じ世帯の買い物記録を閲覧・編集できます。招待や共有を行う場合、利用者自身の責任で相手を選び、共有される情報を確認してください。</p>
+        <p>世帯の所有者が参加者のいる状態でアカウントを削除する場合、共有関係の解消など、アプリが案内する事前操作が必要になることがあります。</p>
+      </section>
+
+      <section id="data">
+        <h2>5. 入力データと価格情報</h2>
+        <p>利用者は、登録する情報が適法であり、第三者の権利を侵害しないことを確認するものとします。入力した買い物記録について、利用者は本サービスの提供、保存、同期、共有および表示に必要な範囲で運営者が取り扱うことを許諾します。</p>
+        <div class="fact-box">
+          <strong>価格の正確性について</strong>
+          <p>表示される価格や比較結果は、利用者が入力した内容、記録時点、数量・単位に基づきます。OCRの認識結果を含め、購入前に店舗の表示やレシート等で最新情報を確認してください。</p>
+        </div>
+      </section>
+
+      <section id="prohibited">
+        <h2>6. 禁止事項</h2>
+        <ul>
+          <li>法令または公序良俗に違反する行為</li>
+          <li>他者になりすます行為、または他者の認証情報を不正に利用する行為</li>
+          <li>サービス、サーバー、ネットワークの運営を妨げる行為</li>
+          <li>不正アクセス、脆弱性の悪用、過度な負荷を与える行為</li>
+          <li>第三者の権利、プライバシーまたは利益を侵害する行為</li>
+          <li>本サービスを本来の目的から著しく逸脱して利用する行為</li>
+        </ul>
+      </section>
+
+      <section id="changes">
+        <h2>7. サービスの変更・中断・終了</h2>
+        <p>保守、障害、セキュリティ対応、法令への対応その他運営上必要な場合、サービスの全部または一部を変更、中断または終了することがあります。可能な場合は、アプリ内または本サイトで事前にお知らせします。</p>
+      </section>
+
+      <section id="deletion">
+        <h2>8. アカウント削除と利用終了</h2>
+        <p>利用者は、アプリ内の手順によりアカウント削除を申し込めます。サインアウトやアプリの削除だけでは、クラウド上のアカウントやデータは削除されません。</p>
+        <p>削除後は、削除されたアカウントおよびデータを復元できません。共有世帯の状態によっては、削除前に共有解除などの操作が必要です。</p>
+      </section>
+
+      <section id="disclaimer">
+        <h2>9. 保証の否認と責任</h2>
+        <p>Compriは、サービス、比較結果、OCR結果、利用者が入力した情報について、正確性、完全性、有用性、特定目的への適合性、継続的な提供または不具合がないことを保証するものではありません。</p>
+        <p>店舗の価格、在庫、販売条件は随時変化します。Compriの表示のみを根拠とした購入判断により生じた不利益について、適用法令上許される範囲で責任を負いません。</p>
+        <div class="pending-box">
+          <strong>責任制限条項は法務確認が必要です</strong>
+          <p>消費者契約法その他の強行法規に反する免責は適用されません。課金開始時には、料金、返金、責任上限などの条項をサービス内容に合わせて再設計します。</p>
+        </div>
+      </section>
+
+      <section id="revision">
+        <h2>10. 本規約の変更</h2>
+        <p>法令またはサービス内容の変更等に応じて、本規約を改定する場合があります。利用者に重大な影響を与える変更は、内容と適用時期をアプリ内または本サイトで分かりやすくお知らせします。</p>
+      </section>
+
+      <section id="apple">
+        <h2>11. Appleとの関係</h2>
+        <p>本サービスに関する利用関係は、利用者とCompriの運営者との間で成立するものであり、Appleとの間で成立するものではありません。Appleは、本サービスの提供、保守、サポート、保証、利用者または第三者からの請求への対応について責任を負いません。</p>
+        <p>利用者は、App Storeその他の適用される第三者の利用条件にも従うものとします。Appleおよびその子会社は、本条に関する第三者受益者となります。</p>
+        <div class="pending-box">
+          <strong>Custom EULAとして登録する場合</strong>
+          <p>App Store Connectで本規約をCustom EULAとして使用する場合は、Appleが定める最低条件、運営者の氏名・住所・連絡先を追加したうえで専門家確認が必要です。確定まではAppleの標準EULAを前提とします。</p>
+        </div>
+      </section>
+
+      <section id="law">
+        <h2>12. 準拠法・管轄・問い合わせ</h2>
+        <div class="pending-box">
+          <strong>公開前に確定します</strong>
+          <p>海外利用を想定しているため、準拠法、紛争解決方法、合意管轄、地域別の強行法規の扱いを専門家と確認して記載します。</p>
+        </div>
+        {siteConfig.supportEmail ? (
+          <p>問い合わせ先: <a href={`mailto:${siteConfig.supportEmail}`}>{siteConfig.supportEmail}</a></p>
+        ) : (
+          <p>問い合わせ先は、独自ドメイン取得後に正式なメールアドレスを掲載します。</p>
+        )}
+        <p>最終更新日: {siteConfig.lastUpdated}</p>
+      </section>
+    </article>
+  </div>
+</BaseLayout>
