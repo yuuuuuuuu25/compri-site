@@ -32,11 +32,31 @@ const htmlByRoute = new Map(
 for (const route of expectedPages) {
   if (!htmlByRoute.has(route)) fail(`Missing generated page: ${route}`);
 }
+const invitePage = htmlByRoute.get('/invite/') ?? '';
+if (!invitePage) fail('Missing generated page: /invite/');
+if (!invitePage.includes('<meta name="robots" content="noindex, nofollow"')) {
+  fail('/invite/: missing noindex');
+}
+if (!invitePage.includes('<meta name="referrer" content="no-referrer"')) {
+  fail('/invite/: missing no-referrer policy');
+}
+
+const associationFile = readOptional(path.join(dist, '.well-known', 'apple-app-site-association'));
+try {
+  const association = JSON.parse(associationFile);
+  const details = association.applinks.details ?? [];
+  if (!details.some((entry) => entry.appIDs?.includes('SJ43UBUQAP.com.whynot.Compri')
+    && entry.components?.some((component) => component['/'] === '/invite/'))) {
+    fail('Associated domains file does not match the Compri invitation route');
+  }
+} catch {
+  fail('Missing or invalid apple-app-site-association file');
+}
 
 for (const [route, html] of htmlByRoute) {
   if (!html.includes('<meta name="description"')) fail(`${route}: missing description`);
   if (!html.includes('<link rel="canonical"')) fail(`${route}: missing canonical URL`);
-  if (route !== '/404.html') {
+  if (route !== '/404.html' && route !== '/invite/') {
     if (!html.includes('hreflang="ja"')) fail(`${route}: missing Japanese alternate`);
     if (!html.includes('hreflang="en"')) fail(`${route}: missing English alternate`);
     if (!html.includes('hreflang="x-default"')) fail(`${route}: missing x-default alternate`);

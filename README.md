@@ -25,6 +25,9 @@ npm run build
 - `/privacy/`、`/en/privacy/`: プライバシーポリシー
 - `/terms/`、`/en/terms/`: 利用規約
 - `/account-deletion/`、`/en/account-deletion/`: アカウント削除案内
+- `/invite/?token=...`: アプリ未インストール時の招待案内（検索対象外）
+
+Universal Links用の`public/.well-known/apple-app-site-association`はビルド成果物に含まれます。公開後は`https://compri.jp/.well-known/apple-app-site-association`がリダイレクトなしのHTTP 200で、`Content-Type: application/json`として取得できることを確認してください。GitHub PagesはファイルごとのHTTPヘッダを設定できないため、配信ヘッダが条件を満たさない場合はAASAの配信方法を変更する必要があります。
 
 内部運用資料:
 
@@ -54,4 +57,4 @@ SITE_URL: https://compri.jp
 BASE_PATH: /
 ```
 
-GitHub Pages側のCustom domainは設定済みです。XServerドメインのDNS設定とHTTPS発行確認が残っています。
+GitHub Pages側のCustom domainは設定済みで、`https://compri.jp`はHTTPSで公開されています。

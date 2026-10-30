@@ -1,0 +1,16 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": ["SJ43UBUQAP.com.whynot.Compri"],
+        "components": [
+          {
+            "/": "/invite/",
+            "comment": "Compri household invitation links"
+          }
+        ]
+      }
+    ]
+  }
+}

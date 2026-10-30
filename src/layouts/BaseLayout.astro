@@ -9,6 +9,8 @@ interface Props {
   description?: string;
   lang?: 'ja' | 'en';
   hasAlternate?: boolean;
+  noIndex?: boolean;
+  referrerPolicy?: string;
 }
 
 const {
@@ -16,6 +18,8 @@ const {
   description = siteConfig.description,
   lang = 'ja',
   hasAlternate = true,
+  noIndex = false,
+  referrerPolicy = 'strict-origin-when-cross-origin',
 } = Astro.props;
 const isEnglish = lang === 'en';
 const pageTitle = title === siteConfig.title ? title : `${title} | ${siteConfig.name}`;
@@ -69,7 +73,7 @@ const languageHref = isEnglish ? sitePath('/') : sitePath('/en/');
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="referrer" content={referrerPolicy} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={isEnglish ? 'en_US' : 'ja_JP'} />
     <meta property="og:site_name" content={siteConfig.name} />
@@ -81,7 +85,7 @@ const languageHref = isEnglish ? sitePath('/') : sitePath('/en/');
     <meta name="twitter:description" content={description} />
     <meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#111215" media="(prefers-color-scheme: dark)" />
-    {siteConfig.draft && <meta name="robots" content="noindex, nofollow" />}
+    {(siteConfig.draft || noIndex) && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" href={sitePath('/favicon.svg')} type="image/svg+xml" />
     <link rel="canonical" href={canonicalURL} />
     {hasAlternate && (

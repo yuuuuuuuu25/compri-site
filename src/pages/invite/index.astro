@@ -1,0 +1,72 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="共有への招待"
+  description="Compriアプリで共有への招待を開くための案内です。"
+  hasAlternate={false}
+  noIndex={true}
+  referrerPolicy="no-referrer"
+>
+  <section class="invite-page" aria-labelledby="invite-title">
+    <p class="eyebrow">Compriの共有</p>
+    <h1 id="invite-title">招待が届いています</h1>
+    <p>Compriアプリをインストール済みの場合は、招待を受け取ったメッセージに戻り、リンクをタップしてください。</p>
+    <p>アプリをこれからインストールする場合も、インストール後に同じ招待リンクをもう一度タップしてください。招待は発行から7日間有効で、1回だけ使えます。</p>
+    <button type="button" id="copy-invite-link">招待リンクをコピー</button>
+    <p id="copy-status" role="status" aria-live="polite"></p>
+  </section>
+</BaseLayout>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('#copy-invite-link');
+  const status = document.querySelector<HTMLElement>('#copy-status');
+  button?.addEventListener('click', async () => {
+    if (!status) return;
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      status.textContent = '招待リンクをコピーしました。';
+    } catch {
+      status.textContent = 'コピーできませんでした。受信したメッセージからリンクを共有してください。';
+    }
+  });
+</script>
+
+<style>
+  .invite-page {
+    max-width: 42rem;
+    padding: clamp(3rem, 10vw, 7rem) 0;
+  }
+
+  h1 {
+    margin: .5rem 0 1.5rem;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+  }
+
+  p {
+    line-height: 1.8;
+  }
+
+  button {
+    margin-top: 1.5rem;
+    min-height: 44px;
+    padding: .8rem 1.3rem;
+    border: 0;
+    border-radius: .8rem;
+    background: var(--accent);
+    color: white;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  button:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  #copy-status {
+    min-height: 1.8em;
+  }
+</style>
