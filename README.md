@@ -27,7 +27,7 @@ npm run build
 - `/account-deletion/`、`/en/account-deletion/`: アカウント削除案内
 - `/invite/?token=...`: アプリ未インストール時の招待案内（検索対象外）
 
-Universal Links用の`public/.well-known/apple-app-site-association`はビルド成果物に含まれます。公開後は`https://compri.jp/.well-known/apple-app-site-association`がリダイレクトなしのHTTP 200で、`Content-Type: application/json`として取得できることを確認してください。GitHub PagesはファイルごとのHTTPヘッダを設定できないため、配信ヘッダが条件を満たさない場合はAASAの配信方法を変更する必要があります。
+Universal Links用の`public/.well-known/apple-app-site-association`はビルド成果物に含まれます。公開後は`https://compri.jp/.well-known/apple-app-site-association`がリダイレクトなしのHTTP 200で取得でき、[Appleの関連付けCDN](https://app-site-association.cdn-apple.com/a/v1/compri.jp)にも同じJSONが反映されていることを確認してください。2026-10-30時点でGitHub Pagesは元ファイルを`application/octet-stream`で返しましたが、AppleのCDNは同じ内容を`application/json`で正常に配信しています。最終確認は署名済みiPhoneアプリで行います。
 
 内部運用資料:
 
